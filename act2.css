@@ -1,0 +1,136 @@
+body {
+    background-color: #001228;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', Arial, sans-serif;
+    background-size: cover; 
+    color: #FFFFFF; 
+}
+
+.container {
+    width: 100%;
+    margin: 5%;
+    gap: 20px;
+}
+
+.add-search {
+    justify-content: space-between;
+}
+
+.header-title {
+    text-align: center;
+    font-weight: bold;
+    color: #80A886;
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+.search {
+    background-color: #02243C;
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 100px; 
+    max-width: 600px; 
+    width: 100%;
+    flex-grow: 1;
+    min-height: 300%;
+    height: auto;
+    color: #FFFFFF;
+}
+
+.list-searchpart {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.song-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.unlist {
+    list-style: none;
+    margin-top: 30px;
+    margin-right: 30px;
+    padding: 0;
+}
+
+.song-title {
+    font-weight: bold;
+    color: #80A886;
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+.delete {
+    background-color: #e22636;
+    border: none;
+    border-radius: 5px;
+    width: 15%;
+    font-size: 1.1em;
+    margin: 20px;
+    margin-left: auto;
+}
+
+.delete:hover {
+    background-color: #FF4C4C;
+}
+
+hr {
+    margin: 10px 0;
+    border: 1px solid #80A886;
+}
+
+.search-song-part,
+#song-title,
+#artist {
+    width: 100%;
+    padding: 3px;
+    margin-bottom: 20px;
+    border: 2px solid #80A886;
+    background-color: #02243C;
+    color: #FFFFFF; 
+}
+
+.add {
+    background-color: #02243C;
+    padding: 20px;
+    border-radius: 10px;
+    min-width: 450px; 
+    max-width: 300px; 
+    height: 400px;
+    width: 50%;
+    min-height: 300px;
+    flex-shrink: 0;
+}
+
+.add-header {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #80A886; 
+}
+
+.Button-add {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20%;
+}
+
+#add-button {
+    background-color: #80A886;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    height: 55%;
+    width: 20%;
+    font-size: 1.2em;
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+#add-button:hover {
+    background-color: #496D89;
+}

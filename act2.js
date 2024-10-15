@@ -1,39 +1,117 @@
-const title = document.getElementById('title')
-const artist = document.getElementById('artist')
-const submit = document.getElementById('btn')
-const ul = document.getElementById('songlist')
+// Working add and delete function
 
-submit.addEventListener('click', ()=>{
+const songTitleForm = document.querySelector('#add-song-title'); 
+const songArtistForm = document.querySelector('#add-artist'); 
+const addButton = document.querySelector('#add-button');
+
+let songTitleValue = '';
+let songArtistValue = '';
+
+// SONG title input
+songTitleForm.addEventListener('input', function(e) {
+    songTitleValue = e.target.value;
+});
+
+// SONG artist input
+songArtistForm.addEventListener('input', function(e) {
+    songArtistValue = e.target.value;
+});
+
+// Add button
+addButton.addEventListener('click', function(e) {
+    e.preventDefault();
     
-    //create elemet 
-    const newTitle = title.value
-    const newArtist = artist.value
+    // Check if both title and artist are filled
+    if (songTitleValue && songArtistValue) {
+        addSongToPlaylist(songTitleValue, songArtistValue);
+    } else {
+        alert('Both fields are required!');
+    }
+});
 
-    const p = document.createElement('p')
-    const small = document.createElement('small')
-    const li = document.createElement('li')
+// add the SONG to the playlist
+function addSongToPlaylist(title, artist) {
+    // Create new list item
+    const li = document.createElement('li');
+    li.classList.add('list-searchpart'); // Add class for styling
 
-    //set value to the element
-    p.innerHTML = newTitle;
-    small.innerHTML = newArtist;
+    const songtitle = document.createElement('p');
+    const songartist = document.createElement('small');
+    const deleteBtn = document.createElement('button');
+    const hr = document.createElement('hr');
 
-    //add class to element
-    p.classList.add('mb-0');
-    small.classList.add('artist');
-    li.classList.add('list-group-item')
-
-    //xreate container
     
-    li.append(p);
-    li.append(small);
+    songtitle.textContent = title;
+    songartist.textContent = artist;
+    deleteBtn.textContent = 'Delete';
 
-    console.log(li)
+    
+    deleteBtn.classList.add('delete');
+    songtitle.classList.add('song-title');
+    songartist.classList.add('artist');
 
-    //append list
-    ul.append(li)
+    //wrapper div for title and artist
+    const songInfoDiv = document.createElement('div');
+    songInfoDiv.classList.add('song-info'); // Add class for styling
+    songInfoDiv.appendChild(songtitle);
+    songInfoDiv.appendChild(songartist);
 
-})
 
+    li.appendChild(songInfoDiv);  
+    li.appendChild(deleteBtn);
 
+    
+    const list = document.querySelector('#song-list ul');
+    list.appendChild(li);
+    list.appendChild(hr);
 
-console.log (li)
+    // Reset the forms after adding
+    songTitleForm.reset();
+    songArtistForm.reset();
+
+    // Clear the stored values
+    songTitleValue = '';
+    songArtistValue = '';
+}
+
+// Handle the delete functionality
+const list = document.querySelector('#song-list ul');
+
+list.addEventListener('click', function(e) {
+    if (e.target.className === 'delete') {
+        const li = e.target.parentElement;
+        const hr = li.nextElementSibling;
+
+        if (hr && hr.tagName === 'HR') {
+            hr.parentNode.removeChild(hr);
+        }
+        list.removeChild(li);
+    }
+});
+
+// searchbar
+const searchBar = document.querySelector('.search-song-part'); 
+const List = document.querySelector('#song-list ul');
+
+searchBar.addEventListener('keyup', function(e) {
+    const term = e.target.value.toLowerCase(); 
+    const songItems = list.getElementsByTagName('li'); 
+
+    Array.from(songItems).forEach(function(songItem) {
+        const title = songItem.querySelector('.song-title').textContent; 
+
+        // Check if the title contains the search term
+        if (title.toLowerCase().indexOf(term) !== -1) {
+            songItem.style.display = 'flex'; // Show the item with flex layout
+        } else {
+            songItem.style.display = 'none';
+        }
+    });
+
+    const hrElements = list.querySelectorAll('hr');
+    hrElements.forEach(hr => {
+        const prevLiVisible = hr.previousElementSibling && hr.previousElementSibling.style.display !== 'none';
+        const nextLiVisible = hr.nextElementSibling && hr.nextElementSibling.style.display !== 'none';
+        hr.style.display = (prevLiVisible || nextLiVisible) ? 'block' : 'none';
+    });
+});
