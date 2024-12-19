@@ -1,36 +1,49 @@
-require('dotenv').config()
+require('dotenv').config();
 
-const express = require('express')
+const express = require('express');
+const path = require('path');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const workoutRoutes = require('./routes/workouts');
 
-const mongoose = require('mongoose')
-const workoutRoutes = require('./routes/workouts')
+// Express app
+const app = express();
 
-//express app
-const app = express()
+app.use(cors());
 
-//middleware
-app.use(express.json())
+// Middleware to parse form data and JSON
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-app.use((req, res, next) =>{
-    console.log(req.path, req.method)
-    next()
-})
+// Serve static files from the 'frontend' folder 
+app.use(express.static(path.join(__dirname, '../front'))); 
 
+// Serve workout.html when accessing the /workout route
+app.get('/workout', (req, res) => {
+    res.sendFile(path.join(__dirname, '../front', 'index.html'));  
+});
 
-//routes
-app.use('/api/workouts', workoutRoutes)
+// Handle the root route ('/') and serve HTML file
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../front', 'index.html'));  
+});
 
+// Log requests
+app.use((req, res, next) => {
+    console.log(req.path, req.method);
+    next();
+});
 
-//connect to db
+// Routes for API
+app.use('/api/workouts', workoutRoutes);
+
+// Connect to MongoDB and start the server
 mongoose.connect(process.env.MONGO_URI)
-    .then(() =>{
+    .then(() => {
         app.listen(process.env.PORT, () => {
-            console.log('Listening in port', process.env.PORT)
-        })
+            console.log('Listening on port', process.env.PORT);
+        });
     })
-    .catch((error) =>{
-        console.log(error)
-    })
-
-
-
+    .catch((error) => {
+        console.log(error);
+    });
